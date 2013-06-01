@@ -33,6 +33,7 @@ for filename in $FIRST/*.png ; do
 		url=`sed "s/.png$//" <<< $filename`
 		url=`sed "s/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g" <<< $url`
 		echo -e "$url does not match"
+		cp difference.png $filename
 	fi
 done
 
