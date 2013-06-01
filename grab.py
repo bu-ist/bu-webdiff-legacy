@@ -35,7 +35,11 @@ def main():
 		browser.get(url)
 		filename = "%s/%s.png" % (args.runname, urllib.quote_plus(url))
 		print 'Grabbing %s to %s' % (url, filename)
-		browser.save_screenshot(filename)
+		
+		try:
+			browser.save_screenshot(filename)
+		except:
+			print 'There was a problem grabbing %s' % (url)
 
 	browser.quit()
 
