@@ -34,14 +34,19 @@ Download [libpng (1.6.2 used)](http://www.libpng.org/pub/png/libpng.html) and [I
 	
 ## Grabbing & Comparing
 
-1. Grab screenshots for a list of urls:
+1. Grab screenshots for a list of urls. To display usage:
 
-	$ python grab.py # will display usage
-	$ python grab.py first_run # grabs all urls from urls.txt and stores screenshots in "first_run" directory
-	...
-	$ python grab.py second_run # grabs all urls from urls.txt and stores screenshots in "second_run" directory
+	$ python grab.py 
+	
+2. Grab screenshots for urls listed in urls.txt and stores them in "first_run" directory:
 
-That "…" between the first and second run could be either changing your hosts.txt file to switch between the old and new environments or the actual launch of a new environment.
+	$ python grab.py first_run
+
+3. Grab all urls from urls.txt and stores screenshots in "second_run" directory:
+
+	$ python grab.py second_run
+
+In between #2 and #3 could be either changing your hosts.txt file to switch between the old and new environments or the actual launch of a new environment.
 
 2. Once you have two sets of images, you can compare them:
 
