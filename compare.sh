@@ -25,18 +25,23 @@ if [ ! -d "$SECOND" ]; then
 	exit 1
 fi
 
-DIFFPNG="difference.$FIRST.png"
+DIFFERENCES="$FIRST-vs-$SECOND"
+
+if [ ! -d "$DIFFERENCES" ]; then
+	printf "Creating '%s' to store difference images\n" $DIFFERENCES
+	mkdir $DIFFERENCES
+fi
 
 for filename in $FIRST/*.png ; do
 	filename=`sed "s|^$FIRST/||" <<< $filename`
-	compare "$FIRST/$filename" "$SECOND/$filename" -metric AE "$DIFFPNG" > /dev/null 2>&1
+	compare "$FIRST/$filename" "$SECOND/$filename" -metric AE "$DIFFERENCES/$filename" > /dev/null 2>&1
 	
 	if [ "$?" -ne "0" ]; then
 		url=`sed "s/.png$//" <<< $filename`
 		url=`sed "s/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g" <<< $url`
 		echo -e "$url does not match"
-		cp $DIFFPNG $filename
+	elif [ "$?" -eq "0" ]; then
+		rm "$DIFFERENCES/$filename"
 	fi
 done
 
-rm $DIFFPNG

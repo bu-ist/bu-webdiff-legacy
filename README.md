@@ -2,14 +2,14 @@
 
 The quick version:
 
-* grab.py takes screenshots of web pages  (specified by URL in a file)
+* grab.py takes screenshots of web pages  (specified by URL in a file) with Firefox
 * compare.sh compares the output of two sets of screenshots
 * Selenium is required for taking the screenshots
 * ImageMagick is required for comparing the screenshots
 
 ## Setting Up
 
-After cloning or downloading, install the required packages using pip. Using [virtualenv](https://pypi.python.org/pypi/virtualenv) is highly recommended.
+After cloning or downloading, install the required packages using [pip](https://pypi.python.org/pypi/pip). Using [virtualenv](https://pypi.python.org/pypi/virtualenv) is highly recommended.
 
 	$ cd buwp-smoketests
 	$ virtualenv .
@@ -36,15 +36,15 @@ Download [libpng (1.6.2 used)](http://www.libpng.org/pub/png/libpng.html) and [I
 
 1. Grab screenshots for a list of urls. To display usage:
 
-	$ python grab.py 
+	$ ./grab.py 
 	
 2. Grab screenshots for urls listed in urls.txt and stores them in "first_run" directory:
 
-	$ python grab.py first_run
+	$ ./grab.py first_run
 
 3. Grab all urls from urls.txt and stores screenshots in "second_run" directory:
 
-	$ python grab.py second_run
+	$ ./grab.py second_run
 
 In between #2 and #3 could be either changing your hosts.txt file to switch between the old and new environments or the actual launch of a new environment.
 

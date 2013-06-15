@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from selenium import webdriver
 import argparse
 import os
@@ -5,7 +6,7 @@ import urllib
 
 def url_to_filename(url):
 	filename = url.replace('http://', '')
-	filename = filename.replace('/', '#')
+	filename = filename.replace('/', '%2F')
 	return filename
 
 def main():
