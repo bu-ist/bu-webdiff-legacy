@@ -40,12 +40,12 @@ def main():
 	for url in urls:
 		browser.get(url)
 		filename = "%s/%s.png" % (args.runname, urllib.quote_plus(url))
-		print 'Grabbing %s to %s' % (url, filename)
+		print '[-] %s' % (url)
 		
 		try:
 			browser.save_screenshot(filename)
 		except:
-			print 'There was a problem grabbing %s' % (url)
+			print '[!] ERROR %s' % (url)
 
 	browser.quit()
 
