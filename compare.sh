@@ -36,12 +36,12 @@ for filename in $FIRST/*.png ; do
 	filename=`sed "s|^$FIRST/||" <<< $filename`
 	compare "$FIRST/$filename" "$SECOND/$filename" -metric AE "$DIFFERENCES/$filename" > /dev/null 2>&1
 	
-	if [ "$?" -ne "0" ]; then
+	if [ $? -eq 0 ]; then
+		# printf "Removing %s\n" "$DIFFERENCES/$filename"
+		rm "$DIFFERENCES/$filename"
+	else
 		url=`sed "s/.png$//" <<< $filename`
 		url=`sed "s/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g" <<< $url`
 		echo -e "$url does not match"
-	elif [ "$?" -eq "0" ]; then
-		rm "$DIFFERENCES/$filename"
 	fi
 done
-

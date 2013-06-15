@@ -28,7 +28,7 @@ def main():
 	profile = webdriver.FirefoxProfile()
 
 	profile.set_preference("browser.download.folderList", 2)
-	profile.set_preference("javascript.enabled", False)
+	# profile.set_preference("javascript.enabled", False)
 
 	browser = webdriver.Firefox(firefox_profile=profile)
 	browser.set_window_size(1200, 800)
