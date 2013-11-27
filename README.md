@@ -7,14 +7,21 @@ The quick version:
 * Selenium is required for taking the screenshots
 * ImageMagick is required for comparing the screenshots
 
+## To do
+
+[ ] Eliminate ImageMagick requirement (PIL?)
+
 ## Setting Up
 
 After cloning or downloading, install the required packages using [pip](https://pypi.python.org/pypi/pip). Using [virtualenv](https://pypi.python.org/pypi/virtualenv) is highly recommended.
 
+To setup your virtualenv (once):
+
 	$ cd bu-webdiff
 	$ virtualenv venv
-	
-	
+
+To use it:
+
 	$ source bin/activate
 	$ pip install -r requirements.txt
 
