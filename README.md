@@ -11,8 +11,10 @@ The quick version:
 
 After cloning or downloading, install the required packages using [pip](https://pypi.python.org/pypi/pip). Using [virtualenv](https://pypi.python.org/pypi/virtualenv) is highly recommended.
 
-	$ cd buwp-smoketests
-	$ virtualenv .
+	$ cd bu-webdiff
+	$ virtualenv venv
+	
+	
 	$ source bin/activate
 	$ pip install -r requirements.txt
 
