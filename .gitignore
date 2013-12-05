@@ -5,6 +5,9 @@ __pycache__/
 # C extensions
 *.so
 
+#grabbed images
+*.png
+
 # Distribution / packaging
 venv/
 bin/
