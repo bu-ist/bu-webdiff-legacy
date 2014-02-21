@@ -4,8 +4,6 @@ urldecode(){
     echo -e "$(sed 's/+/ /g;s/%\(..\)/\\x/g;')"
 }
 
-first=$(cd -P -- "$1" && printf "%s\n" "$(pwd -P)")
-second=$(cd -P -- "$2" && printf "%s\n" "$(pwd -P)")
 
 if [ $# -ne 2 ]
 then
@@ -14,6 +12,9 @@ then
     printf "the second.\n"
     exit 1
 fi
+
+first="$1"
+second="$2"
 
 if [ ! -d "$first" ]; then
     printf "'%s' does not exist\n" $first
@@ -24,6 +25,9 @@ if [ ! -d "$second" ]; then
     printf "'%s' does not exist\n" $second
     exit 1
 fi
+
+first=$(cd -P -- "$1" && printf "%s\n" "$(pwd -P)")
+second=$(cd -P -- "$2" && printf "%s\n" "$(pwd -P)")
 
 differences=$(printf "%s/%s-vs-%s" "$(dirname -- "$first")" \
     "$(basename -- "$first")" "$(basename -- "$second")")
