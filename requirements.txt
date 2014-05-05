@@ -1,2 +1,4 @@
 # buwp-webdiff
 selenium>=2.3
+argparse
+pyvirtualdisplay
