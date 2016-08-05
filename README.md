@@ -27,6 +27,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Firefox
+Firefox browser is the recommended way of taking screenshots. Selenium will automatically find the Firefox installed on the machine. It is easier to set it up than Chrome. Although Selenium claims the latest version of Firefox is compatible, I've never seen it to be case. As of August 2016, Firefox 46 works with this setup.
+
 ## ImageMagick
 
 On Mac systems, you can install ImageMagick using brew.
