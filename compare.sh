@@ -61,6 +61,9 @@ for filename in $first/*.png ; do
 		echo -e "$url is a different height"
 	fi
 
-	rm "$first/$filename"
-	rm "$second/$filename"
+	if [ -f "$first/$filename" ] && [ -f "$second/$filename" ]
+		then
+			rm "$first/$filename"
+			rm "$second/$filename"
+	fi
 done
