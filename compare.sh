@@ -60,4 +60,7 @@ for filename in $first/*.png ; do
 		convert "$first/$filename" "$second/$filename" +append "$differences/$filename"
 		echo -e "$url is a different height"
 	fi
+
+	rm "$first/$filename"
+	rm "$second/$filename"
 done
