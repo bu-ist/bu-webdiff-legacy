@@ -1,4 +1,4 @@
 # buwp-webdiff
-selenium>=2.3
+selenium==2.53.6
 argparse
 pyvirtualdisplay
