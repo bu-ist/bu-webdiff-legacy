@@ -4,17 +4,18 @@ urldecode(){
 	echo -e "$(sed 's/+/ /g;s/%\(..\)/\\x/g;')"
 }
 
-
-if [ $# -ne 2 ]
+if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]
 then
-	printf "Usage: `basename %s` {first directory} {second directory}\n" $0
+	printf "Usage: `basename %s` {first directory} {second directory} [-d]\n" $0
 	printf "Compares the screenshots in the first directory to those in "
 	printf "the second.\n"
+	printf "-d flag will delete the original dir images after comparison.\n"
 	exit 1
 fi
 
 first="$1"
 second="$2"
+delete="$3"
 
 if [ ! -d "$first" ]; then
 	printf "'%s' does not exist\n" $first
@@ -61,7 +62,7 @@ for filename in $first/*.png ; do
 		echo -e "$url is a different height"
 	fi
 
-	if [ -f "$first/$filename" ] && [ -f "$second/$filename" ]
+	if [ -f "$first/$filename" ] && [ -f "$second/$filename" ] && [ "$delete" = "-d" ]
 		then
 			rm "$first/$filename"
 			rm "$second/$filename"
