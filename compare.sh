@@ -41,6 +41,11 @@ fi
 for filename in $first/*.png ; do
 	filename=`sed "s|^$first/||" <<< $filename`
 
+    if [ ! -f "$second/$filename" ]; then
+        echo "[!] No matching file in $second/$filename for $first/$filename."
+        continue;
+    fi
+
 	url=`sed "s/.png$//" <<< $filename`
 	url=`sed "s/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g" <<< $url`
 
