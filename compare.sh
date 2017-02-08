@@ -55,11 +55,11 @@ for filename in $first/*.png ; do
 				# printf "Removing %s\n" "$differences/$filename"
 				rm "$differences/$filename"
 			else
-				echo -e "$url does not match"
+				echo "$url does not match"
 		fi
 	else
 		convert "$first/$filename" "$second/$filename" +append "$differences/$filename"
-		echo -e "$url is a different height"
+		echo "$url is a different height"
 	fi
 
 	if [ -f "$first/$filename" ] && [ -f "$second/$filename" ] && [ "$delete" = "-d" ]
