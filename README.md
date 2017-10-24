@@ -32,18 +32,37 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Firefox
+## Browsers
+
+### Firefox
 Firefox browser is the recommended way of taking screenshots. Selenium will automatically find the Firefox installed on the machine. It is easier to set it up than Chrome. Although Selenium claims the latest version of Firefox is compatible, I've never seen it to be case. As of August 2016, [Firefox 46](https://ftp.mozilla.org/pub/firefox/releases/46.0/mac/en-US/) works with this setup.
 
 This script will try to use your default version of Firefox. The easiest way I've found to get around this is to have two versions set up. When you download 46, drag it into Applications just like you normally would, but do not replace your current Firefox install - keep both. That will name 46 "Firefox 2". Rename your current version of Firefox to Firefox-current, and keep that in your dock. Rename 46 (Firefox 2) to Firefox.
-	
+
+## Lists of URLs
+
+### WordPress
+
+It is easy to generate a list of URLs for a WordPress site through wp-cli.
+
+```bash
+# List post types registered on a site
+wp --url=www.bu.edu/met/ post-type list
+# List permalinks for the found post types.
+wp --url=www.bu.edu/met/ post list --fields=url --post_type=post,page --post_status=publish --format=csv | tail -n +2
+```
+
+### Google Analytics
+
+To get a list of popular sites or URLs, check the Google Analytics account under Reports > Behavior > Content Drilldown and use Export into CSV.
+
 ## Grabbing & Comparing
 
 1. Grab screenshots for a list of urls. To display usage:
 ```bash
 ./grab.py
 ```
-	
+
 2. Grab screenshots for urls listed in urls.txt and stores them in "first_run" directory:
 
 ```bash
