@@ -31,11 +31,14 @@ def main():
 
     parser.add_argument('--browser', default='firefox', help='browser name \
                         must be supported by selenium \
-                        (options: firefox, phantomjs')
+                        (options: firefox, phantomjs, chrome(must have chromedriver in your PATH))')
 
     parser.add_argument('--per-cycle', default=100, help='determines how many \
                         urls to process with a single instance of the browser \
                         before restarting')
+
+    parser.add_argument('--headless', action='store_true', help='uses chrome \
+                        headless if --browser was set to chrome')
 
     parser.add_argument('--virtual-display', action='store_true', help='uses \
                         a virtual display to create a remote display \
@@ -78,6 +81,11 @@ def main():
         # setup our browser
         if args.browser == 'phantomjs':
             browser = webdriver.PhantomJS()
+        elif args.browser == 'chrome':
+            options = webdriver.ChromeOptions()
+            if args.headless:
+                options.add_argument('headless')
+            browser = webdriver.Chrome(chrome_options=options)
         else:
             profile = webdriver.FirefoxProfile()
 
