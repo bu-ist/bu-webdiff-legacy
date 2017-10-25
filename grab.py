@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
+from multiprocessing import Pool
 from selenium import webdriver
 from pyvirtualdisplay import Display
 import argparse
@@ -19,6 +20,47 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i+n]
 
+def grab_screenshots(args, i, urls):
+    if args.verbose:
+        print("Launching new %s browser at chunk %s" % (args.browser, i,))
+
+    # setup our browser
+    if args.browser == 'phantomjs':
+        browser = webdriver.PhantomJS()
+    elif args.browser == 'chrome':
+        options = webdriver.ChromeOptions()
+        if args.headless:
+            options.add_argument('headless')
+            browser = webdriver.Chrome(chrome_options=options)
+    else:
+        profile = webdriver.FirefoxProfile()
+
+        profile.set_preference("browser.download.folderList", 2)
+        profile.set_preference("javascript.enabled", False)
+        browser = webdriver.Firefox(firefox_profile=profile)
+
+
+    browser.set_window_size(1200, 800)
+
+    # grab screenshots
+    for url in urls:
+        browser.get(url)
+        filename = os.path.join(args.directory,
+                                urllib.quote_plus(url) + '.png')
+        print(url)
+
+        try:
+            browser.save_screenshot(filename)
+        except:
+            print('* ERROR {0}'.format(url))
+
+    browser.quit()
+
+def grab_screenshots_star(params):
+    # workaround for not having Pool.starmap like in python 3
+    # https://stackoverflow.com/a/5443941
+    grab_screenshots(params['args'], params['i'], params['chunk'])
+
 def main():
     # command line args
     parser = argparse.ArgumentParser(description='Load a series of URLs and \
@@ -36,6 +78,9 @@ def main():
     parser.add_argument('--per-cycle', default=100, help='determines how many \
                         urls to process with a single instance of the browser \
                         before restarting')
+
+    parser.add_argument('--num-cores', default=4, help='determines how many \
+                        cores to use with multiprocessing')
 
     parser.add_argument('--headless', action='store_true', help='uses chrome \
                         headless if --browser was set to chrome')
@@ -72,43 +117,13 @@ def main():
     urls_list = open(args.urls).read().splitlines()
     urls_chunks = chunks(urls_list, int(args.per_cycle))
 
-    i = 0
-    for urls in urls_chunks:
-        i = i+1
-        if args.verbose:
-            print("Launching new %s browser at chunk %s" % (args.browser, i,))
+    # encapsulate additional info with each chunk of urls
+    parameters_array = [{'args': args, 'i': i, 'chunk': chunk}
+                        for i, chunk in enumerate(urls_chunks)]
 
-        # setup our browser
-        if args.browser == 'phantomjs':
-            browser = webdriver.PhantomJS()
-        elif args.browser == 'chrome':
-            options = webdriver.ChromeOptions()
-            if args.headless:
-                options.add_argument('headless')
-            browser = webdriver.Chrome(chrome_options=options)
-        else:
-            profile = webdriver.FirefoxProfile()
-
-            profile.set_preference("browser.download.folderList", 2)
-            # profile.set_preference("javascript.enabled", False)
-            browser = webdriver.Firefox(firefox_profile=profile)
-
-
-        browser.set_window_size(1200, 800)
-
-        # grab screenshots
-        for url in urls:
-            browser.get(url)
-            filename = os.path.join(args.directory,
-                                    urllib.quote_plus(url) + '.png')
-            print(url)
-
-            try:
-                browser.save_screenshot(filename)
-            except:
-                print('* ERROR {0}'.format(url))
-
-        browser.quit()
+    # split task into multiple pool workers
+    pool = Pool(int(args.num_cores))
+    pool.map(grab_screenshots_star, parameters_array)
 
     if args.virtual_display:
         if args.verbose:
