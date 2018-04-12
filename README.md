@@ -84,3 +84,39 @@ In between #2 and #3 could be either changing your /etc/hosts file to switch bet
 ```
 
 Ideally this will have no output. If a screenshot differs between the two runs, it will print the URL of the differing page to the screen. It's up to you to investigate the reason why the page differs. The comparison tool will save a "difference" image for any pages that differ in the current directory. You may examine this image to see if the changes are significant. Be wary of dynamic page content, such as advertisements or banners.
+
+## Wordpress: Testing a Sandbox Site Against a Live Site
+
+You may wish to run a comparison of a sandbox version of a site and a live version of the same site. For example, your sandbox version of the site might be running a newer version of Wordpress that has not yet been deployed on the live version of the site. 
+
+Before beginning, be sure to have Firefox 46.0 installed, as this is the browser that webdiff is expecting to use.
+
+1. Create a local clone of the live site in your sandbox.
+
+2. Install the "List All URLs" plugin (either in your cloned site, or globally—that is, in your cloned sites' root site—depending on how many sites you will be comparing). Then, within the cloned site, go to Settings-->List All URLs, select the "All URLs" radio button, and click submit.
+
+3. Copy and paste the complete list of URLs into bu-webdiff/urls.txt, competely replacing anything that may already be there.
+
+4. Webdiff grabs screenshots for these URLs and stores them in a newly created "first_run" directory:
+
+```bash
+./grab.py first_run
+```
+
+5. Reopen urls.txt and use your text editor's find and replace function to change the first part of each of the links to the root of the live site rather than the sandbox (e.g., http://www.bu.edu/ instead of http://mysandbox.com/).
+
+6. Webdiff grabs screenshots for all urls from urls.txt (now reflecting the live site) and stores these in a newly created "second_run" directory:
+
+```bash
+./grab.py second_run
+```
+
+7. Webdiff names the files in the two folders according to their URLs, with certain characters escaped. These file names must be identical, however, for webdiff to compare a screenshot of one page to that of another. Use find and replace / batch renaming to transform the first part of each filename so that files in first_run and second_run have identical names (i.e., each file in first_run matches a single, identically named file in second_run).
+
+8. Once you have two sets of images with matching file names, webdiff can compare them:
+
+```bash
+./compare.sh first_run second_run
+```
+
+
